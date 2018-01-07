@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     Auto chosenAuto;
     Integer autoPoints = 0;
     GameRunner gameRunner;
+    PowerupCoordinator powerupCoord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,6 +156,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void start() {
+        powerupCoord = new PowerupCoordinator();
+
         go.setEnabled(false);
         stop.setEnabled(true);
 
@@ -249,7 +252,16 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener powerupUser = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //TODO: Consume and apply powerups
+            switch (v.getId()) {
+                case R.id.forceButton:
+                    gameRunner.usePowerup(Powerup.FORCE);
+                    break;
+                case R.id.boostButton:
+                    gameRunner.usePowerup(Powerup.BOOST);
+                    break;
+                case R.id.levitateButton:
+                    gameRunner.usePowerup(Powerup.LEVITATE);
+            }
         }
     };
 
@@ -283,5 +295,9 @@ public class MainActivity extends AppCompatActivity {
     
     public enum Goal {
         NONE, MY_SWITCH, SCALE, THEIR_SWITCH, BOOKSHELF;
+    }
+
+    public enum Powerup {
+        FORCE, BOOST, LEVITATE;
     }
 }

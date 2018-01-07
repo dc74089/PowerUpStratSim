@@ -36,6 +36,21 @@ public class GameRunner extends Thread {
         this.goal = goal;
     }
 
+    public void usePowerup(MainActivity.Powerup powerup) {
+        switch (powerup) {
+            case FORCE:
+                //TODO: This
+                break;
+            case BOOST:
+                //TODO: This
+                break;
+            case LEVITATE:
+                score += 30;
+                powerupCredits -= 3;
+                break;
+        }
+    }
+
     public void mainLoop() {
         Log.v("GameRunner", "Main Loop");
         //Increment Goal

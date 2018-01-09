@@ -3,6 +3,7 @@ package com.explodingbacon.powerup_scoresim;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -10,20 +11,13 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     Button go, stop;
-    Button noAutoButton, driveAutoButton, switchAutoButton, scaleAutoButton;
-    Button forceButton, boostButton, levitateButton;
-    Button mySwitchButton, scaleButton, theirSwitchButton, bookshelfButton;
-    ProgressBar mySwitchProgress, scaleProgress, theirSwitchProgress, bookshelfProgress;
-    EditText mySwitchTime, scaleTime, theirSwitchTime, bookshelfTime;
-    TextView scoreDisplay, powerupDisplay;
+    TextView playerOneScore, playerTwoScore;
+    ViewGroup playerOneRoot, playerTwoRoot;
 
     String scoreDisplayString = "%d/%d";
     String powerupDisplayString = "You have %d powerup credits";
 
-    Auto chosenAuto;
-    Integer autoPoints = 0;
     GameRunner gameRunner;
-    PowerupCoordinator powerupCoord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,49 +29,12 @@ public class MainActivity extends AppCompatActivity {
         go.setOnClickListener(runner);
         stop.setOnClickListener(runner);
 
-        noAutoButton = findViewById(R.id.noAutoButton);
-        driveAutoButton = findViewById(R.id.driveAutoButton);
-        switchAutoButton = findViewById(R.id.switchAutoButton);
-        scaleAutoButton = findViewById(R.id.scaleAutoButton);
-        noAutoButton.setOnClickListener(autoSetter);
-        driveAutoButton.setOnClickListener(autoSetter);
-        switchAutoButton.setOnClickListener(autoSetter);
-        scaleAutoButton.setOnClickListener(autoSetter);
+        playerOneRoot = findViewById(R.id.playerOne);
+        playerTwoRoot = findViewById(R.id.playerTwo);
+        playerOneScore = findViewById(R.id.playerOneScore);
+        playerTwoScore = findViewById(R.id.playerTwoScore);
 
-        forceButton = findViewById(R.id.forceButton);
-        boostButton = findViewById(R.id.boostButton);
-        levitateButton = findViewById(R.id.levitateButton);
-        forceButton.setOnClickListener(powerupUser);
-        boostButton.setOnClickListener(powerupUser);
-        levitateButton.setOnClickListener(powerupUser);
-
-        mySwitchButton = findViewById(R.id.mySwitchButton);
-        scaleButton = findViewById(R.id.scaleButton);
-        theirSwitchButton = findViewById(R.id.theirSwitchButton);
-        bookshelfButton = findViewById(R.id.bookshelfButton);
-        mySwitchButton.setOnClickListener(goalSetter);
-        scaleButton.setOnClickListener(goalSetter);
-        theirSwitchButton.setOnClickListener(goalSetter);
-        bookshelfButton.setOnClickListener(goalSetter);
-
-        mySwitchProgress = findViewById(R.id.mySwitchProgress);
-        scaleProgress = findViewById(R.id.scaleProgress);
-        theirSwitchProgress = findViewById(R.id.theirSwitchProgress);
-        bookshelfProgress = findViewById(R.id.bookshelfProgress);
-        mySwitchProgress.setMax(1000);
-        scaleProgress.setMax(1000);
-        theirSwitchProgress.setMax(1000);
-        bookshelfProgress.setMax(1000);
-
-        mySwitchTime = findViewById(R.id.mySwitchTime);
-        scaleTime = findViewById(R.id.scaleTime);
-        theirSwitchTime = findViewById(R.id.theirSwitchTime);
-        bookshelfTime = findViewById(R.id.bookshelfTime);
-
-        scoreDisplay = findViewById(R.id.score);
-        powerupDisplay = findViewById(R.id.powerupCreditDisplay);
-        scoreDisplay.setText("0");
-        powerupDisplay.setText(String.format(powerupDisplayString, 0));
+        gameRunner = new GameRunner(this);
 
         reset();
     }
